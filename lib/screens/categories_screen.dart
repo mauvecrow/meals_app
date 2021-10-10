@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals_app/widgets/color_palette.dart';
 
 import '../dummy_data.dart';
 import '../widgets/category_item.dart';
@@ -11,6 +12,15 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('DeliMeal'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.palette),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => const ColorPalette()));
+            },
+          )
+        ],
       ),
       body: GridView(
         padding: const EdgeInsets.all(25),

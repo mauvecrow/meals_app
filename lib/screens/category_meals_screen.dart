@@ -18,23 +18,23 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
 
   void _removeMeal(String mealId) {
     setState(() {
-      if (!_loadedInitData) {
-        categoryMeals.removeWhere((meal) => meal.id == mealId);
-      }
+      categoryMeals.removeWhere((meal) => meal.id == mealId);
     });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    final categoryId = routeArgs['id'];
-    categoryTitle = routeArgs['title'] as String;
-    categoryMeals = DUMMY_MEALS
-        .where((meal) => meal.categories.contains(categoryId))
-        .toList();
-    _loadedInitData = true;
+    if (!_loadedInitData) {
+      final routeArgs =
+          ModalRoute.of(context)?.settings.arguments as Map<String, String>;
+      final categoryId = routeArgs['id'];
+      categoryTitle = routeArgs['title'] as String;
+      categoryMeals = DUMMY_MEALS
+          .where((meal) => meal.categories.contains(categoryId))
+          .toList();
+      _loadedInitData = true;
+    }
   }
 
   @override

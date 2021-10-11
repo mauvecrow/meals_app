@@ -34,6 +34,7 @@ class _CategoryMealsScreenState extends State<CategoryMealsScreen> {
     categoryMeals = DUMMY_MEALS
         .where((meal) => meal.categories.contains(categoryId))
         .toList();
+    _loadedInitData = true;
   }
 
   @override

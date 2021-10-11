@@ -9,15 +9,18 @@ class MealItem extends StatelessWidget {
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
-  const MealItem(
-      {Key? key,
-      required this.id,
-      required this.title,
-      required this.imageUrl,
-      required this.duration,
-      required this.affordability,
-      required this.complexity})
-      : super(key: key);
+  final Function removeItem;
+
+  const MealItem({
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+    required this.duration,
+    required this.affordability,
+    required this.complexity,
+    required this.removeItem,
+  }) : super(key: key);
 
   String get complexityText {
     switch (complexity) {
@@ -49,10 +52,20 @@ class MealItem extends StatelessWidget {
   }
 
   void selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(
+    Navigator.of(context)
+        .pushNamed(
       MealDetailScreen.routeName,
       arguments: id,
-    );
+    )
+        /*since pushNamed returns a future, then() will execute once
+        the target navigation is popped off. In other words, then() will
+        execute when we go back in navigation (MealDetailScreen is popped)
+        */
+        .then((result) {
+      if (result != null) {
+        removeItem(result);
+      }
+    });
   }
 
   @override

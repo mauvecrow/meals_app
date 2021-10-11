@@ -11,38 +11,46 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabScreenState extends State<TabsScreen> {
+  int _selectedPageIndex = 0;
+  final List<Map<String, Object>> _screensMeta = const [
+    {'page': CategoriesScreen(), 'title': 'Categories'},
+    {'page': FavoriteScreen(), 'title': 'Favorites'},
+  ];
+
+  void _selectPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Meals'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.palette),
-              onPressed: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (ctx) => const ColorPalette()));
-              },
-            )
-          ],
-          bottom: const TabBar(
-            tabs: [
-              Tab(
-                icon: Icon(Icons.category),
-                text: 'Categories',
-              ),
-              Tab(icon: Icon(Icons.favorite), text: 'Favorite'),
-            ],
-          ),
-        ),
-        body: const TabBarView(
-          children: [
-            CategoriesScreen(),
-            FavoriteScreen(),
-          ],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(_screensMeta[_selectedPageIndex]['title'] as String),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.palette),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (ctx) => const ColorPalette()));
+            },
+          )
+        ],
+      ),
+      body: _screensMeta[_selectedPageIndex]['page'] as Widget,
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _selectPage,
+        currentIndex: _selectedPageIndex,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        unselectedItemColor: Colors.white,
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.category), label: 'Categories'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.favorite), label: 'Favorites'),
+        ],
       ),
     );
   }

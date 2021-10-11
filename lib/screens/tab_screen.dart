@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './favorite_screen.dart';
 import './categories_screen.dart';
+import '../widgets/color_palette.dart';
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
@@ -17,6 +18,15 @@ class _TabScreenState extends State<TabsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Meals'),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.palette),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (ctx) => const ColorPalette()));
+              },
+            )
+          ],
           bottom: const TabBar(
             tabs: [
               Tab(

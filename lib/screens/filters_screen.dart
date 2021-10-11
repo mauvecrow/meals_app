@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import '../widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({Key? key}) : super(key: key);
+  final Function saveFilters;
+  final Map<String, bool> currentFilters;
+
+  const FiltersScreen(this.currentFilters, this.saveFilters, {Key? key})
+      : super(key: key);
 
   static const routeName = '/filters';
 
@@ -15,6 +19,15 @@ class _FiltersScreenState extends State<FiltersScreen> {
   bool _vegetarianFree = false;
   bool _veganFree = false;
   bool _lactoseFree = false;
+
+  @override
+  initState() {
+    super.initState();
+    _glutenFree = widget.currentFilters['gluten']!;
+    _lactoseFree = widget.currentFilters['lactose']!;
+    _vegetarianFree = widget.currentFilters['vegetarian']!;
+    _veganFree = widget.currentFilters['vegan']!;
+  }
 
   Widget _buildSwitchTileList(String title, String description,
       bool currentValue, ValueChanged updateValue) {
@@ -29,9 +42,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Filters'),
-      ),
+      appBar: AppBar(title: const Text('Filters'), actions: [
+        IconButton(
+            onPressed: () {
+              Map<String, bool> selectedFilters = {
+                'gluten': _glutenFree,
+                'lactose': _lactoseFree,
+                'vegan': _veganFree,
+                'vegetarian': _vegetarianFree,
+              };
+              widget.saveFilters(selectedFilters);
+            },
+            icon: const Icon(Icons.save)),
+      ]),
       body: Column(
         children: [
           Container(
@@ -53,13 +76,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     _lactoseFree,
                     (newValue) => setState(() => _lactoseFree = newValue)),
                 _buildSwitchTileList(
-                    "Vegetarian-free",
-                    'Only include vegetarian-free meals',
+                    "Vegetarian",
+                    'Only include vegetarian meals',
                     _vegetarianFree,
                     (newValue) => setState(() => _vegetarianFree = newValue)),
                 _buildSwitchTileList(
-                    "Vegan-free",
-                    'Only include vegan-free meals',
+                    "Vegan",
+                    'Only include vegan meals',
                     _veganFree,
                     (newValue) => setState(() => _veganFree = newValue)),
               ],

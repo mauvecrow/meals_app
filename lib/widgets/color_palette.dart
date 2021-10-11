@@ -32,6 +32,7 @@ class ColorPalette extends StatelessWidget {
           buildContainer('cs on bg', td.colorScheme.onBackground),
           buildContainer('cs surface', td.colorScheme.surface),
           buildContainer('cs on surface', td.colorScheme.onSurface),
+          buildContainer('td primaryColor', td.primaryColor),
           buildContainer('td canvas color', td.canvasColor),
           buildContainer('td bg', td.backgroundColor),
           buildContainer('td shadowColor', td.shadowColor),
